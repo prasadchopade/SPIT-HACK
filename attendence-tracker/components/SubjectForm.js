@@ -24,6 +24,26 @@ const POTHOLES_DB = [
   { id: 1, latitude: 20.595, longitude: 78.965 },
   { id: 2, latitude: 20.596, longitude: 78.969 },
   { id: 3, latitude: 19.1255, longitude: 72.8531 },
+  { id: 4, latitude: 19.1234, longitude: 72.5678 },
+  { id: 5, latitude: 19.2345, longitude: 72.6789 },
+  { id: 6, latitude: 19.3456, longitude: 72.7890 },
+  { id: 7, latitude: 19.4567, longitude: 72.8901 },
+  { id: 8, latitude: 19.5678, longitude: 72.9012 },
+  { id: 9, latitude: 19.6789, longitude: 72.0123 },
+  { id: 10, latitude: 19.7890, longitude: 72.1234 },
+  { id: 11, latitude: 19.8912, longitude: 72.2345 },
+  { id: 12, latitude: 19.9123, longitude: 72.3456 },
+  { id: 13, latitude: 19.9234, longitude: 72.4567 },
+  { id: 14, latitude: 19.9345, longitude: 72.5678 },
+  { id: 15, latitude: 19.9456, longitude: 72.6789 },
+  { id: 16, latitude: 19.1272, longitude: 72.8357 },
+  { id: 17, latitude: 19.1267, longitude: 72.8313 },
+  { id: 18, latitude: 19.1271, longitude: 72.8353 },
+  { id: 19, latitude: 19.1243, longitude: 72.8375 },
+  { id: 20, latitude: 19.1277, longitude: 72.8461 },
+  { id: 21, latitude: 19.1276, longitude: 72.8406 },
+  { id: 22, latitude: 19.1278, longitude: 72.8319 },
+  { id: 23, latitude: 19.1223, longitude: 72.8459 },
 ];
 
 // You might want a haversine distance library, but let's do a quick approximation
@@ -62,8 +82,9 @@ const calculateRouteScore = (potholes, distance) => {
   const potholePenalty = Math.min(60, potholeDensity * 15); // Max 60 points penalty for potholes
   
   // Penalize for very short or very long distances
-  const optimalDistance = 5; // 5km is considered optimal
-  const distancePenalty = Math.min(40, Math.abs(distanceKm - optimalDistance) * 2);
+  const optimalDistance = 5; // 25km is considered optimal
+  const distancePenalty = Math.min(30, Math.abs(distanceKm - optimalDistance) * 2);
+  // const distancePenalty = Math.max(15, (distanceKm - optimalDistance) * 2);
   
   // Calculate final score
   score = Math.max(0, score - potholePenalty - distancePenalty);
@@ -217,7 +238,7 @@ export default function Ride() {
 
       // === DETECT POTHOLES ON ROUTE ===
       // We'll do a simple "closest route coordinate" check
-      const threshold = 30; // meters
+      const threshold = 50; // meters
       const found = [];
 
       POTHOLES_DB.forEach((pothole) => {
